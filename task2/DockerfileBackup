@@ -1,0 +1,18 @@
+FROM ubuntu:16.04
+
+RUN apt update -y
+RUN apt install nginx -y
+RUN apt install keepalived -y
+
+RUN mkdir /opt/startup/
+WORKDIR /opt/startup/
+
+COPY dockerConf/backupStartup.sh .
+COPY dockerConf/keepalivedBackup.conf /etc/keepalived/keepalived.conf
+COPY dockerConf/kaBackup.sh /etc/keepalived/backup.sh
+COPY dockerConf/kaMaster.sh /etc/keepalived/master.sh
+COPY dockerConf/backup.html /var/www/html/index.html
+
+RUN chmod +x backupStartup.sh /etc/keepalived/backup.sh /etc/keepalived/master.sh
+
+CMD /opt/startup/backupStartup.sh

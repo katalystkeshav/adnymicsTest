@@ -1,0 +1,25 @@
+version: '2'
+services:
+  master:
+    image: keepalived_master:1.0
+    container_name:  keepalived_master
+    ports:
+      - "8880:80"
+    networks:
+      static-network:
+        ipv4_address: 172.18.128.2
+
+  backup:
+    image: keepalived_backup:1.0
+    container_name:  keepalived_backup
+    ports:
+        - "8881:80"
+    networks:
+       static-network:
+         ipv4_address: 172.18.128.3
+
+networks:
+   static-network:
+     ipam:
+       config:
+         - subnet:  172.18.0.0/16
